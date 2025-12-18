@@ -20,9 +20,16 @@ services:
         - JENKINS_OPTS=--httpPort=8082
     user: root
 
-  gateway:
+  nginx:
+    image: nginx:stable
+    container_name: nginx
     ports:
       - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/certs:/etc/nginx/certs
+
+  gateway:
     build:
       context: .
       dockerfile: dockerfile

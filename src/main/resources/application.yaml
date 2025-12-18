@@ -1,5 +1,5 @@
 server:
-  port: 443
+  port: 8083
   forward-headers-strategy: framework
 ssl:
   enabled: true
@@ -22,8 +22,8 @@ spring:
             redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
         provider:
           keycloak:
-            issuer-uri: http://localhost:8081/realms/cloud_env
+            issuer-uri: https://localhost:8081/realms/cloud_env
 
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8081/realms/cloud_env
+          issuer-uri: https://localhost:8081/realms/cloud_env

@@ -1,14 +1,5 @@
 services:
 
-  nginx:
-    image: nginx:stable
-    container_name: nginx
-    ports:
-      - "443:443"
-    volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d
-      - ./nginx/certs:/etc/nginx/certs
-
   jenkins:
     image: jenkins/jenkins:lts-jdk17
     container_name: jenkins
@@ -21,8 +12,6 @@ services:
       - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
       - JENKINS_OPTS=--httpPort=8082
     user: root
-    depends_on:
-      - nginx
 
   keycloak:
     image: quay.io/keycloak/keycloak:latest
@@ -37,8 +26,6 @@ services:
       KC_IMPORT: /opt/keycloak/data/import/realm.json
     volumes:
       - ./keycloak/realm.json:/opt/keycloak/data/import/realm.json
-    depends_on:
-      - nginx
 
   gateway:
     build:
@@ -49,7 +36,18 @@ services:
       KEYCLOAK_CLIENT_SECRET: gateway-secret
     depends_on:
       - keycloak
-      - nginx
+
+  nginx:
+    image: nginx:stable
+    container_name: nginx
+    ports:
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/certs:/etc/nginx/certs
+    depends_on:
+      - gateway
+      - keycloak
 
 #stawianie środowiska
 #docker compose up --build

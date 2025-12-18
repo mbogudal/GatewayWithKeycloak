@@ -1,3 +1,28 @@
+server:
+  port: 443
+ssl:
+  enabled: true
+  key-store: classpath:keystore.p12
+  key-store-password: changeit
+  key-store-type: PKCS12
+  key-alias: gateway
 spring:
   application:
     name: GatewayWithKeycloak
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: gateway
+            client-secret: ${KEYCLOAK_CLIENT_SECRET}
+            authorization-grant-type: authorization_code
+            scope: openid,profile,email
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8081/realms/cloud_env
+
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8081/realms/cloud_env

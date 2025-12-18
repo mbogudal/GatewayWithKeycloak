@@ -19,3 +19,15 @@ services:
         - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
         - JENKINS_OPTS=--httpPort=8082
     user: root
+
+  gateway:
+    ports:
+      - "443:443"
+    build:
+      context: .
+      dockerfile: dockerfile
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+
+#stawianie środowiska
+#docker compose up --build

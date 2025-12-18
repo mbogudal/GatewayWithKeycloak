@@ -17,15 +17,23 @@ services:
     image: quay.io/keycloak/keycloak:latest
     container_name: keycloak
     command: start-dev --http-port=8081 --import-realm
+    ports:
+      - "8081:8081"
     environment:
       KC_BOOTSTRAP_ADMIN_USERNAME: admin
       KC_BOOTSTRAP_ADMIN_PASSWORD: admin
-      KC_HTTP_RELATIVE_PATH: /auth          # <--- TO JEST KLUCZOWE
+      KC_HTTP_RELATIVE_PATH: /auth
       KC_PROXY_HEADERS: xforwarded          # <--- Dodaj to, by Keycloak rozumiał Nginxa
       KC_HOSTNAME_STRICT: "false"
       KC_IMPORT: /opt/keycloak/data/import/realm.json
     volumes:
       - ./keycloak/realm.json:/opt/keycloak/data/import/realm.json
+    healthcheck:
+      test: ["CMD-SHELL", "echo 'Checking Keycloak...' && curl -f http://localhost:8081/auth/realms/master && echo 'Keycloak is UP' || (echo 'Keycloak is DOWN' && exit 1)"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+
 
   gateway:
     build:
@@ -35,7 +43,8 @@ services:
       SPRING_PROFILES_ACTIVE: preprod
       KEYCLOAK_CLIENT_SECRET: gateway-secret
     depends_on:
-      - keycloak
+      keycloak:
+        condition: service_healthy
 
   nginx:
     image: nginx:stable

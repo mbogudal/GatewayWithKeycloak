@@ -1,11 +1,14 @@
 package pl.bogudal.mikolaj.GatewayWithKeycloak.configuration;
 
+import lombok.extern.java.Log;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.security.web.server.authentication.RedirectServerAuthenticationEntryPoint;
 
+@Log
 @EnableWebFluxSecurity
 public class SecurityConfiguration {
     @Bean
@@ -20,6 +23,11 @@ public class SecurityConfiguration {
                         // Endpointy API → weryfikacja JWT
                         .pathMatchers("/api/**").authenticated()
                 )
+                .exceptionHandling(exceptionHandling -> {
+                    log.info("Unknown user. Redirecting.");
+                    exceptionHandling
+                            .authenticationEntryPoint(new RedirectServerAuthenticationEntryPoint("/oauth2/authorization/gateway-client"))
+                })
                 // Logowanie dla web / przeglądarki
                 .oauth2Login(Customizer.withDefaults())
 

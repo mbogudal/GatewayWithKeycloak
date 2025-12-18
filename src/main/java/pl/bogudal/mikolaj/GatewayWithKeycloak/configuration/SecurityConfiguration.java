@@ -14,10 +14,17 @@ public class SecurityConfiguration {
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(exchanges -> exchanges
                         .pathMatchers("/public/**").permitAll() // opcjonalne publiczne endpointy
-                        .anyExchange().authenticated()
+                        // Endpointy webowe → logowanie OAuth2 (redirect do Keycloak)
+                        .pathMatchers("/web/**").authenticated()
+
+                        // Endpointy API → weryfikacja JWT
+                        .pathMatchers("/api/**").authenticated()
                 )
-                .oauth2Login(Customizer.withDefaults())        // <- redirect do Keycloak
-                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults())) // <- walidacja JWT
+                // Logowanie dla web / przeglądarki
+                .oauth2Login(Customizer.withDefaults())
+
+                // Resource Server dla API / weryfikacja tokena
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))      // <- redirect do Keycloak
                 .build();
     }
 }

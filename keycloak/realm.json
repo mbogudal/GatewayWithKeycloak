@@ -1,0 +1,44 @@
+{
+  "realm": "cloud_env",
+  "enabled": true,
+  "id": "cloud_env",
+  "clients": [
+    {
+      "clientId": "gateway",
+      "enabled": true,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "gateway-secret",
+      "redirectUris": [
+        "https://localhost/login/oauth2/code/keycloak"
+      ],
+      "publicClient": false,
+      "protocol": "openid-connect",
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "authorizationServicesEnabled": false
+    }
+  ],
+  "users": [
+    {
+      "username": "testuser",
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "testpassword",
+          "temporary": false
+        }
+      ],
+      "emailVerified": true
+    }
+  ],
+  "roles": {
+    "realm": [
+      {
+        "name": "user"
+      }
+    ]
+  }
+}

@@ -16,8 +16,8 @@ spring:
             redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
         provider:
           keycloak:
-            issuer-uri: https://localhost/realms/cloud_env
+            issuer-uri: http://keycloak:8081/auth/realms/cloud_env
 
       resourceserver:
         jwt:
-          issuer-uri: https://localhost/realms/cloud_env
+          issuer-uri: http://keycloak:8081/auth/realms/cloud_env

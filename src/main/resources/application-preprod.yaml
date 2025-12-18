@@ -1,0 +1,23 @@
+server:
+  port: 8083
+  forward-headers-strategy: framework
+spring:
+  application:
+    name: GatewayWithKeycloak
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: gateway
+            client-secret: ${KEYCLOAK_CLIENT_SECRET}
+            authorization-grant-type: authorization_code
+            scope: openid,profile,email
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+        provider:
+          keycloak:
+            issuer-uri: http://keycloak:8081/realms/cloud_env
+
+      resourceserver:
+        jwt:
+          issuer-uri: http://keycloak:8081/realms/cloud_env

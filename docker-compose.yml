@@ -32,7 +32,7 @@ services:
       context: .
       dockerfile: dockerfile
     environment:
-      SPRING_PROFILES_ACTIVE: dev
+      SPRING_PROFILES_ACTIVE: preprod
       KEYCLOAK_CLIENT_SECRET: gateway-secret
     depends_on:
       - keycloak

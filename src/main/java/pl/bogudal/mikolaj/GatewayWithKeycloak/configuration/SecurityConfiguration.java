@@ -26,7 +26,7 @@ public class SecurityConfiguration {
                 .exceptionHandling(exceptionHandling -> {
                     log.info("Unknown user. Redirecting.");
                     exceptionHandling
-                            .authenticationEntryPoint(new RedirectServerAuthenticationEntryPoint("/oauth2/authorization/gateway-client"))
+                            .authenticationEntryPoint(new RedirectServerAuthenticationEntryPoint("/oauth2/authorization/gateway-client"));
                 })
                 // Logowanie dla web / przeglądarki
                 .oauth2Login(Customizer.withDefaults())

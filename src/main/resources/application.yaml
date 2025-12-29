@@ -1,3 +1,24 @@
+server:
+  port: 8083
+  forward-headers-strategy: framework
 spring:
   application:
     name: GatewayWithKeycloak
+  cloud:
+    gateway:
+      routes:
+        # Frontend
+        - id: frontend
+          uri: http://login:3000
+          predicates:
+            - Path=/
+        - id: frontend-assets
+          uri: http://login:3000
+          predicates:
+            - Path=/_next/**,/favicon.ico,/robots.txt
+
+        # Backend API
+        - id: backend
+          uri: http://gateway:8080
+          predicates:
+            - Path=/api/**

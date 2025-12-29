@@ -1,9 +1,4 @@
-server:
-  port: 8083
-  forward-headers-strategy: framework
 spring:
-  application:
-    name: GatewayWithKeycloak
   security:
     oauth2:
       resourceserver:

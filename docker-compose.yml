@@ -37,7 +37,7 @@ services:
       SPRING_PROFILES_ACTIVE: preprod
       KEYCLOAK_CLIENT_SECRET: gateway-secret
     depends_on:
-      keycloak
+      - keycloak
 
   nginx:
     image: nginx:stable

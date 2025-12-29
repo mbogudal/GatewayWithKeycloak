@@ -9,4 +9,4 @@ done
 
 echo "$(date) - Keycloak is up! Starting gateway..."
 
-java -jar /target/GatewayWithKeycloak-0.0.1-SNAPSHOT.jar
+java -jar /app/target/GatewayWithKeycloak-0.0.1-SNAPSHOT.jar

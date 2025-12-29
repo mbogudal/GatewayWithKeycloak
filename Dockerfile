@@ -9,6 +9,7 @@ COPY . .
 
 RUN chmod +x ./mvnw
 RUN ./mvnw clean compile package
+RUN test -f /app/target/GatewayWithKeycloak-0.0.1-SNAPSHOT.jar
 
 RUN apt-get update && apt-get install -y curl
 

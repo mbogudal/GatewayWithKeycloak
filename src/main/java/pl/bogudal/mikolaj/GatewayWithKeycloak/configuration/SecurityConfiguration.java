@@ -23,7 +23,7 @@ public class SecurityConfiguration {
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(exchanges -> exchanges
                         .pathMatchers("/public/**").permitAll() // opcjonalne publiczne endpointy
-
+                        .pathMatchers("/").permitAll()
                         // Endpointy API → weryfikacja JWT
                         .pathMatchers("/api/**").authenticated()
                 )

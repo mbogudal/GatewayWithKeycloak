@@ -11,7 +11,7 @@ spring:
         - id: frontend
           uri: http://login:3000
           predicates:
-            - Path=/
+            - Path=/**
         - id: frontend-assets
           uri: http://login:3000
           predicates:

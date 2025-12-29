@@ -27,11 +27,6 @@ public class SecurityConfiguration {
                         // Endpointy API → weryfikacja JWT
                         .pathMatchers("/api/**").authenticated()
                 )
-                .exceptionHandling(exceptionHandling -> {
-                    log.info("Unknown user. Redirecting.");
-                    exceptionHandling
-                            .authenticationEntryPoint(new RedirectServerAuthenticationEntryPoint("/auth/realms/cloud_env/protocol/openid-connect/auth"));
-                })
 
                 // Resource Server dla API / weryfikacja tokena
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))      // <- redirect do Keycloak

@@ -1,8 +1,16 @@
 # 1. Wybieramy obraz bazowy z Javą
-FROM eclipse-temurin:23-jre
+FROM maven:3.9.3-eclipse-temurin-23 AS build
 
 # 2. Ustawiamy katalog roboczy w kontenerze
 WORKDIR /app
+
+# 3. Kopiujemy pliki Maven
+COPY pom.xml .
+COPY src ./src
+
+RUN mvn clean compile packages
+
+FROM eclipse-temurin:23-jre
 
 RUN apt-get update && apt-get install -y curl
 

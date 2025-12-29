@@ -28,12 +28,6 @@ services:
       KC_IMPORT: /opt/keycloak/data/import/realm.json
     volumes:
       - ./keycloak/realm.json:/opt/keycloak/data/import/realm.json
-    healthcheck:
-      test: ["CMD-SHELL", "echo 'Checking Keycloak...' && curl -f http://localhost:8081/auth/realms/master && echo 'Keycloak is UP' || (echo 'Keycloak is DOWN' && exit 1)"]
-      interval: 10s
-      timeout: 5s
-      retries: 15
-
 
   gateway:
     build:
@@ -43,8 +37,7 @@ services:
       SPRING_PROFILES_ACTIVE: preprod
       KEYCLOAK_CLIENT_SECRET: gateway-secret
     depends_on:
-      keycloak:
-        condition: service_healthy
+      keycloak
 
   nginx:
     image: nginx:stable

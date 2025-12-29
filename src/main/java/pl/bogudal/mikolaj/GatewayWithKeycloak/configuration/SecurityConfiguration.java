@@ -23,8 +23,6 @@ public class SecurityConfiguration {
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(exchanges -> exchanges
                         .pathMatchers("/public/**").permitAll() // opcjonalne publiczne endpointy
-                        // Endpointy webowe → logowanie OAuth2 (redirect do Keycloak)
-                        .pathMatchers("/web/**").authenticated()
 
                         // Endpointy API → weryfikacja JWT
                         .pathMatchers("/api/**").authenticated()
@@ -32,10 +30,8 @@ public class SecurityConfiguration {
                 .exceptionHandling(exceptionHandling -> {
                     log.info("Unknown user. Redirecting.");
                     exceptionHandling
-                            .authenticationEntryPoint(new RedirectServerAuthenticationEntryPoint("/oauth2/authorization/gateway-client"));
+                            .authenticationEntryPoint(new RedirectServerAuthenticationEntryPoint("/auth/realms/cloud_env/protocol/openid-connect/auth"));
                 })
-                // Logowanie dla web / przeglądarki
-                .oauth2Login(Customizer.withDefaults())
 
                 // Resource Server dla API / weryfikacja tokena
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))      // <- redirect do Keycloak

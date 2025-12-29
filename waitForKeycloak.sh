@@ -8,4 +8,4 @@ until curl -s $KEYCLOAK_URL > /dev/null; do
 done
 
 echo "$(date) - Keycloak is up! Starting gateway..."
-java -jar app.jar
+java -jar GatewayWithKeycloak-0.0.1-SNAPSHOT.jar

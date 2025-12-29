@@ -6,14 +6,18 @@ spring:
     name: GatewayWithKeycloak
   cloud:
     gateway:
+      default-filters:
+        - AddRequestHeader=X-Gateway-Received, true
       routes:
         # Frontend
         - id: frontend
-          uri: http://login:3000
+          uri: http://gatewaywithkeycloak-login-1:3000/
           predicates:
             - Path=/**
+          filters:
+            - RewritePath=/(.*), /$1
         - id: frontend-assets
-          uri: http://login:3000
+          uri: http://gatewaywithkeycloak-login-1:3000/
           predicates:
             - Path=/_next/**
             - Path=/favicon.ico
@@ -24,3 +28,6 @@ spring:
           uri: http://gateway:8080
           predicates:
             - Path=/api/**
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG

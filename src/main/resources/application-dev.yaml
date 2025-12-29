@@ -1,0 +1,23 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: test
+  application:
+    name: GatewayWithKeycloak
+  cloud:
+    gateway:
+      default-filters:
+        - AddRequestHeader=X-Gateway-Received, true
+      routes:
+        # Frontend
+        - id: frontend
+          uri: http://google.pl
+          predicates:
+            - Path=/**
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+

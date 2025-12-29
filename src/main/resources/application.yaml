@@ -1,33 +1,3 @@
 server:
   port: 8083
   forward-headers-strategy: framework
-spring:
-  application:
-    name: GatewayWithKeycloak
-  cloud:
-    gateway:
-      default-filters:
-        - AddRequestHeader=X-Gateway-Received, true
-      routes:
-        # Frontend
-        - id: frontend
-          uri: http://gatewaywithkeycloak-login-1:3000/
-          predicates:
-            - Path=/**
-          filters:
-            - RewritePath=/(.*), /$1
-        - id: frontend-assets
-          uri: http://gatewaywithkeycloak-login-1:3000/
-          predicates:
-            - Path=/_next/**
-            - Path=/favicon.ico
-            - Path=/robots.txt
-
-        # Backend API
-        - id: backend
-          uri: http://gateway:8080
-          predicates:
-            - Path=/api/**
-logging:
-  level:
-    org.springframework.cloud.gateway: DEBUG

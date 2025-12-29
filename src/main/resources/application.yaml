@@ -15,7 +15,9 @@ spring:
         - id: frontend-assets
           uri: http://login:3000
           predicates:
-            - Path=/_next/**,/favicon.ico,/robots.txt
+            - Path=/_next/**
+            - Path=/favicon.ico
+            - Path=/robots.txt
 
         # Backend API
         - id: backend

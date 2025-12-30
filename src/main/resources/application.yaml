@@ -1,3 +1,18 @@
 server:
   port: 8083
   forward-headers-strategy: framework
+spring:
+  main:
+    web-application-type: reactive
+  application:
+    name: GatewayWithKeycloak
+  cloud:
+    gateway:
+      default-filters:
+        - AddRequestHeader=X-Gateway-Received, true
+      routes:
+        # Frontend
+        - id: frontend
+          uri: https://httpbin.org
+          predicates:
+            - Path=/**

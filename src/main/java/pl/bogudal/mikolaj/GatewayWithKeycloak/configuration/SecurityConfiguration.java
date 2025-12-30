@@ -14,7 +14,7 @@ import org.springframework.security.web.server.authentication.RedirectServerAuth
 @Log
 @Lazy
 @Configuration
-@Profile({"preprod", "prod"})
+@Profile({"preprod", "prod", "dev"})
 @EnableWebFluxSecurity
 public class SecurityConfiguration {
     @Bean
@@ -23,7 +23,7 @@ public class SecurityConfiguration {
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(exchanges -> exchanges
                         .pathMatchers("/public/**").permitAll()
-                        .pathMatchers("/").permitAll()
+                        .pathMatchers("/**").permitAll()
                         .pathMatchers("/_next/**", "/favicon.ico", "/robots.txt").permitAll()
                         .pathMatchers("/api/**").authenticated()
                 )

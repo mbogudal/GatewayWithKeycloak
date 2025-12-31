@@ -8,6 +8,7 @@ jenkins:
       rolesClaim: "roles"  # <- mapowanie na JWT roles
   authorizationStrategy:
     roleBased:
+      allowAnonymousRead: false
       roles:
         global:
           - name: "developer"

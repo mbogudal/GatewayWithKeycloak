@@ -10,7 +10,7 @@ services:
 
     environment:
       - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
-      - JENKINS_OPTS=--httpPort=8082
+      - JENKINS_OPTS=--httpPort=8082 --prefix=/jenkins
     user: root
 
   keycloak:

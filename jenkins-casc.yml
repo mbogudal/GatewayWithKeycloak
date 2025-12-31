@@ -10,9 +10,6 @@ jenkins:
     roleBased:
       roles:
         global:
-          - name: "user"
-            permissions:
-              - "Overall/Read"
           - name: "developer"
             permissions:
               - "Overall/Administer"

@@ -20,12 +20,7 @@ public class SecurityConfiguration {
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         return http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
-                .authorizeExchange(exchanges -> exchanges
-                        .pathMatchers("/public/**").permitAll()
-                        .pathMatchers("/**").permitAll()
-                        .pathMatchers("/_next/**", "/favicon.ico", "/robots.txt").permitAll()
-                        .pathMatchers("/api/**").authenticated()
-                )
+                .authorizeExchange(ex -> ex.anyExchange().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
                 .build();
     }

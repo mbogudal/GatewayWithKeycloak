@@ -1,32 +1,30 @@
-# ======================
-# 1. Build stage
-# ======================
-FROM node:20-alpine AS builder
-
+# ---- base ----
+FROM node:20-alpine AS base
 WORKDIR /app
 
-COPY package*.json ./
+# ---- deps ----
+FROM base AS deps
+COPY package.json package-lock.json* ./
 RUN npm ci
 
+# ---- build ----
+FROM base AS build
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npm run build
 
-# ======================
-# 2. Runtime stage
-# ======================
+# ---- runtime ----
 FROM node:20-alpine AS runner
-
 WORKDIR /app
+
 ENV NODE_ENV=production
+ENV PORT=3000
 
-# kopiujemy standalone output
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next/static ./.next/static
-COPY --from=builder /app/public ./public
+# tylko to, co potrzebne do uruchomienia
+COPY --from=build /app/.next ./.next
+COPY --from=build /app/public ./public
+COPY --from=build /app/package.json ./package.json
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/next.config.ts ./next.config.ts
 
-EXPOSE 3000
-
-CMD ["node", "server.js"]
-
-#docker build -t login .
-#docker run -p 3000:3000 login
+CMD ["npm", "run", "start"]

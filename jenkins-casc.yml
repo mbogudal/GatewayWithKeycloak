@@ -1,0 +1,20 @@
+jenkins:
+  securityRealm:
+    oic:
+      clientID: "jenkins"
+      clientSecret: "jenkins-secret"
+      issuer: "http://keycloak:8080/realms/cloud_env"
+      scopes: "openid profile email"
+      rolesClaim: "roles"  # <- mapowanie na JWT roles
+  authorizationStrategy:
+    roleBased:
+      roles:
+        global:
+          - name: "user"
+            permissions:
+              - "Overall/Read"
+          - name: "developer"
+            permissions:
+              - "Overall/Administer"
+      assignments:
+        "developer": ["developer"] # tylko 'developer' ma pełne uprawnienia

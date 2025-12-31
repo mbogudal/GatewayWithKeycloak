@@ -18,26 +18,46 @@
       "directAccessGrantsEnabled": false,
       "serviceAccountsEnabled": false,
       "authorizationServicesEnabled": false
+    },
+    {
+      "clientId": "jenkins",
+      "enabled": true,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "jenkins-secret",
+      "redirectUris": [
+        "https://localhost/login/oauth2/code/keycloak"
+      ],
+      "publicClient": false,
+      "protocol": "openid-connect",
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "authorizationServicesEnabled": false
     }
   ],
   "users": [
     {
-      "username": "testuser",
+      "username": "test",
       "enabled": true,
       "credentials": [
         {
           "type": "password",
-          "value": "testpassword",
+          "value": "test",
           "temporary": false
         }
       ],
+      "realmRoles": ["USER","DEVELOPER"],
       "emailVerified": true
     }
   ],
   "roles": {
     "realm": [
       {
-        "name": "user"
+        "name": "USER"
+      },
+      {
+        "name": "DEVELOPER"
       }
     ]
   }

@@ -9,7 +9,7 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "gateway-secret",
       "redirectUris": [
-        ["http://*/*"]
+        "http://*/*"
       ],
       "publicClient": false,
       "protocol": "openid-connect",
@@ -25,7 +25,7 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "jenkins-secret",
       "redirectUris": [
-        ["http://*/*"]
+        "http://*/*"
       ],
       "publicClient": false,
       "protocol": "openid-connect",
